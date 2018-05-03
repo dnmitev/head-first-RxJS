@@ -3,13 +3,21 @@
     <mat-card fxFlex.xs="100%" fxFlex="400px">
       <mat-card-title fxLayoutAlign="center">Time to start a workout!</mat-card-title>
       <mat-card-content fxLayoutAlign="center">
-        <mat-form-field *ngIf="!(isLoading$ | async) && exercises$ | async">
-          <mat-select placeholder="Choose Exercise" ngModel name="exercise" required>
-            <mat-option *ngFor="let exercise of exercises$ | async" [value]="exercise.id">
-              {{ exercise.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div *ngIf="!(isLoading$ | async) && exercises$ | async">
+          <mat-form-field>
+            <mat-select placeholder="Choose Exercise" [(ngModel)]="selected" name="exercise" required>
+              <mat-option *ngFor="let exercise of exercises$ | async" [value]="exercise.id">
+                {{ exercise.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button type="button" mat-fab (click)="onMicBtnClick(f)" color="primary" [disabled]="isListening | async">
+            <mat-icon *ngIf="!(isListening | async)" class="mat-18">mic</mat-icon>
+            <mat-icon *ngIf="isListening | async" class="mat-18">hearing</mat-icon>
+          </button>
+        </div>
+
         <mat-spinner *ngIf="isLoading$ | async"></mat-spinner>
       </mat-card-content>
       <mat-card-actions fxLayoutAlign="center" *ngIf="!(isLoading$ | async)">
