@@ -9,8 +9,6 @@ import { Exercise } from '../exercise.model';
 import { UIService } from '../../shared/ui.service';
 import * as fromTraining from '../training.reducer';
 import * as fromRoot from '../../app.reducer';
-import { debug } from 'util';
-import { DEFAULT_BREAKPOINTS } from '@angular/flex-layout';
 
 @Component({
   selector: 'app-new-training',
@@ -20,6 +18,7 @@ import { DEFAULT_BREAKPOINTS } from '@angular/flex-layout';
 export class NewTrainingComponent implements OnInit {
   exercises$: Observable<Exercise[]>;
   isLoading$: Observable<boolean>;
+  selected: string;
   @Output() isListening: EventEmitter<boolean> = new EventEmitter(true);
 
   constructor(
@@ -52,7 +51,6 @@ export class NewTrainingComponent implements OnInit {
       // TODO: Refactor to have better structure; get into separate reducer or service
       var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
       var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
-      var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
       var trainings = exercises.map(e => e.name.toLowerCase());
       var grammar = '#JSGF V1.0; grammar trainings; public <trainig> = ' + trainings.join(' | ') + ' ;'
